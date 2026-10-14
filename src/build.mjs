@@ -5,6 +5,7 @@ import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { solutions, sectors, redirects, site } from "./data.mjs";
 import * as P from "./pages.mjs";
+import { cards, cardPage, vcard } from "./card.mjs";
 
 const here = dirname(fileURLToPath(import.meta.url));
 const root = resolve(here, "..");
@@ -41,6 +42,11 @@ for (const s of sectors) add(`sektorler/${s.slug}/index.html`, P.sectorDetail(s)
 add("hakkimizda/index.html", P.about());
 add("iletisim/index.html", P.contact());
 for (const l of P.legalPages) add(`${l.slug}/index.html`, P.legal(l));
+// Dijital kartvizitler (QR hedefi; sitemap dışında, noindex)
+for (const c of cards) {
+  write(`${c.slug}/index.html`, cardPage(c));
+  write(`${c.slug}/${c.slug}.vcf`, vcard(c));
+}
 write("404/index.html", P.notFound());
 write("404.html", P.notFound());
 
