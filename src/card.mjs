@@ -9,6 +9,8 @@ export const cards = [
     name: "Ahmet Taymi Genel",
     first: "Ahmet Taymi",
     last: "Genel",
+    // Rehberde görünen ad: aranınca "Yapay Zeka" ile de bulunsun
+    contactLast: "Genel Yapay Zeka",
     title: "Co-Founder",
     org: "OptiosLab",
     phone: "+90 507 271 75 18",
@@ -43,8 +45,8 @@ export function vcard(c) {
   return [
     "BEGIN:VCARD",
     "VERSION:3.0",
-    `N:${v(c.last)};${v(c.first)};;;`,
-    `FN:${v(c.name)}`,
+    `N:${v(c.contactLast || c.last)};${v(c.first)};;;`,
+    `FN:${v(`${c.first} ${c.contactLast || c.last}`)}`,
     `ORG:${v(c.org)}`,
     `TITLE:${v(c.title)}`,
     `TEL;TYPE=CELL,VOICE:${c.phoneRaw}`,
@@ -132,7 +134,7 @@ h1{margin:0;font:800 30px/1.08 Manrope,Inter,sans-serif;letter-spacing:-.025em}
     <h1>${esc(c.name)}</h1>
     <p class="role">${esc(c.title)} · <b>${esc(c.org)}</b></p>
     <div class="acts">
-      <a class="btn p" href="${vcf}" download="${esc(c.name)}.vcf">${svg("save")} Rehbere kaydet</a>
+      <a class="btn p" href="${vcf}" download="${esc(`${c.first} ${c.contactLast || c.last}`)}.vcf">${svg("save")} Rehbere kaydet</a>
       <a class="btn" href="tel:${c.phoneRaw}">${svg("phone")} Ara</a>
       <a class="btn" href="https://wa.me/${c.whatsapp}" target="_blank" rel="noopener">${svg("wa")} WhatsApp</a>
     </div>
